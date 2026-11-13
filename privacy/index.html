@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Kamui Privacy</title><link rel="stylesheet" href="/style.css"></head>
+<body><main>
+<h1>Kamui Sepolia Beta — Privacy Notice</h1>
+<p class="meta">Last updated: 13 November 2026</p>
+<p class="note">This notice covers the Kamui beta on the Starknet Sepolia <strong>test</strong> network. It will be reviewed and may change before any mainnet launch.</p>
+
+<h2>1. Who we are</h2>
+<p>Kamui is a test wallet that lets you sign in with a Google account and control a Starknet account on the Starknet Sepolia test network. It is run by the Kamui team ("we", "us"). See section 9 to contact us.</p>
+
+<h2>2. What this beta is</h2>
+<p>The beta runs only on Starknet Sepolia, a public test network. Test tokens have no monetary value. Do not use the beta for anything of real value.</p>
+
+<h2>3. Information we process</h2>
+<h3>3.1 Google sign-in</h3>
+<p>When you sign in, Google sends your browser a signed identity token. We request only the <code>openid</code> scope. We do <strong>not</strong> request your email address, name or profile picture, and we do not use or store them.</p>
+<p>We use these fields from the token: the issuer, our app's client ID, your Google account identifier, a one-time value (nonce), and the token's issue and expiry times. The token is sent from your browser to our pepper service and, when an account is first created, to our backend. We check it and then discard it. We do not store the raw token.</p>
+
+<h3>3.2 Pepper and account identity</h3>
+<p>Our pepper service computes a secret value (the "pepper") from your Google issuer and account identifier, using a key held in AWS Key Management Service. The pepper is returned to your browser and is not stored by the service.</p>
+<p>Your account's identity value is a one-way hash of your Google issuer, our app's client ID, your Google account identifier and your pepper. Without the pepper key, this hash cannot be linked back to your Google account. <strong>We hold that key, so we are technically able to work out which Starknet account belongs to a given Google account identifier.</strong></p>
+
+<h3>3.3 Information published on the blockchain</h3>
+<p>Starknet is a public blockchain. When your account is created, the identity hash described above and our app's client ID are written to the network. Your account address, your transactions, device keys added or removed, recovery events, session revocations and spending policies are also public.</p>
+<p><strong>Information written to the blockchain is public and permanent. We cannot change or delete it.</strong></p>
+<p>Your Google account identifier, pepper and identity token are not published. During recovery they are used only inside a proof generated in your browser.</p>
+
+<h3>3.4 Information stored on our servers</h3>
+<div class="wrap"><table>
+<tr><th>Data</th><th>Why</th><th>How long</th></tr>
+<tr><td>Connected-app sessions: your account address, a session public key, the website and app name you connected to, permitted contracts and functions, spending limits, and timestamps</td><td>To let apps you approve act within the limits you set</td><td>Until the session expires or you revoke it; expired sessions are removed hourly</td></tr>
+<tr><td>Account creation and recovery jobs: account address, identity hash, transaction details, and a one-way fingerprint of the request</td><td>To complete account creation or recovery safely</td><td>Deleted 30 minutes after the job finishes</td></tr>
+<tr><td>Sponsored-fee records: account address, app, fee amount and time</td><td>To account for test transaction fees we sponsor and enforce limits</td><td>Kept for the duration of the beta</td></tr>
+<tr><td>Database backups</td><td>To restore the service after a failure</td><td>About 7 days</td></tr>
+</table></div>
+
+<h3>3.5 IP addresses and logs</h3>
+<p>Your IP address is used briefly in memory to rate-limit requests and prevent abuse. It is not written to our databases, and our web server does not keep access logs.</p>
+<p>Our application logs record technical events such as request outcomes, timings, account addresses and transaction hashes. They are designed to exclude identity tokens, Google account identifiers, email addresses, IP addresses and website origins. Logs are limited in size and overwritten as new entries arrive.</p>
+
+<h3>3.6 Information stored in your browser</h3>
+<p>The wallet stores data in your browser's IndexedDB, encrypted with a key that cannot be exported from the browser: your device's private key, your account details and your pepper. A temporary sign-in state is held in session storage during sign-in.</p>
+<p>You can download a recovery file containing your account address, network details, the issuer and client ID, and your pepper. It does not contain your Google account identifier. Keep it private.</p>
+<p>We do not use cookies, analytics or advertising trackers.</p>
+
+<h2>4. Why we process it</h2>
+<ul>
+<li>To create and recover your test account and let you sign transactions.</li>
+<li>To let apps you approve use your account within the limits you set.</li>
+<li>To sponsor test transaction fees and enforce spending limits.</li>
+<li>To keep the service secure and prevent abuse.</li>
+</ul>
+
+<h2>5. Who we share it with</h2>
+<ul>
+<li><strong>Google</strong>, to sign you in. Google will know that you signed in to Kamui. Google's own privacy policy applies.</li>
+<li><strong>Amazon Web Services (Ireland)</strong> hosts our servers, database backups and the pepper key.</li>
+<li><strong>Starknet RPC nodes.</strong> Our servers and your browser read the Starknet network through the public node at <code>sepolia.nodes.starknet.org</code>. When that node cannot answer, the request goes instead to <strong>ZAN</strong>'s public endpoint. Whichever node answers can see your IP address and the account and contract data requested.</li>
+<li><strong>Cloudflare</strong> provides our DNS. It does not see your traffic to our servers.</li>
+<li><strong>The certificate authority</strong> that issues our TLS certificates. It receives no information about you.</li>
+<li><strong>GitHub</strong> hosts these policy pages.</li>
+<li><strong>Anyone on the public blockchain</strong>, as described in section 3.3.</li>
+</ul>
+
+<h2>6. Your choices and requests</h2>
+<p>You can revoke app sessions at any time from the wallet. You can ask us to access, correct or delete information we hold about you on our servers, using the contact in section 9. We cannot delete or change information already written to the public blockchain.</p>
+
+<h2>7. Children</h2>
+<p>The beta is not intended for children.</p>
+
+<h2>8. Changes</h2>
+<p>We may update this notice and will change the "Last updated" date when we do. It will be reviewed before any mainnet launch.</p>
+
+<h2>9. Contact</h2>
+<p>Open an issue at <a href="https://github.com/starknet-innovation/kamui-site/issues">github.com/starknet-innovation/kamui-site/issues</a>. Issues are public: <strong>do not post personal details or keys there.</strong> Ask to be contacted privately and we will follow up.</p>
+
+<footer><a href="/">Kamui</a> · <a href="/terms">Terms of use</a></footer>
+</main></body></html>
